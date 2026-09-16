@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Bertanya ke AI — Media Ajar Plugged</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F7F7FC;
+    --surface: #FFFFFF;
+    --ink: #1E2A4A;
+    --ink-soft: #55607E;
+    --gold: #C97A1F;
+    --gold-bg: #FBEBD3;
+    --gold-line: #F0D19C;
+    --teal: #1E8A76;
+    --teal-bg: #DBF2EC;
+    --teal-line: #A9DECF;
+    --violet: #5A4A9E;
+    --violet-bg: #ECE8F8;
+    --violet-line: #CFC3EE;
+    --warn: #C1432E;
+    --warn-bg: #FBE7E2;
+    --good: #1E8A54;
+    --good-bg: #E1F5E8;
+    --line: #E4E3F1;
+    --shadow: 0 10px 26px rgba(41, 35, 92, 0.09);
+    --radius-lg: 26px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #12152A;
+      --surface: #1B1F3A;
+      --ink: #EEEFFB;
+      --ink-soft: #AEB3D6;
+      --gold: #F0B368;
+      --gold-bg: #3A2E1C;
+      --gold-line: #6B5230;
+      --teal: #6BD6BE;
+      --teal-bg: #163A32;
+      --teal-line: #2C6656;
+      --violet: #B6A6F2;
+      --violet-bg: #2A2350;
+      --violet-line: #493B7E;
+      --warn: #F1897A;
+      --warn-bg: #3B211D;
+      --good: #7CD9A0;
+      --good-bg: #163625;
+      --line: #2C3157;
+      --shadow: 0 10px 26px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #12152A;
+    --surface: #1B1F3A;
+    --ink: #EEEFFB;
+    --ink-soft: #AEB3D6;
+    --gold: #F0B368;
+    --gold-bg: #3A2E1C;
+    --gold-line: #6B5230;
+    --teal: #6BD6BE;
+    --teal-bg: #163A32;
+    --teal-line: #2C6656;
+    --violet: #B6A6F2;
+    --violet-bg: #2A2350;
+    --violet-line: #493B7E;
+    --warn: #F1897A;
+    --warn-bg: #3B211D;
+    --good: #7CD9A0;
+    --good-bg: #163625;
+    --line: #2C3157;
+    --shadow: 0 10px 26px rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing: border-box;}
+  html,body{margin:0; padding:0;}
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Nunito', 'Segoe UI', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 28px 16px 60px;
+  }
+  h1,h2,h3{
+    font-family: 'Baloo 2', 'Segoe UI Rounded', sans-serif;
+    margin: 0;
+    line-height: 1.18;
+  }
+  .wrap{max-width: 760px; margin: 0 auto;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background: linear-gradient(155deg, var(--violet-bg), var(--surface) 62%);
+    border: 1px solid var(--violet-line);
+    border-radius: var(--radius-lg);
+    padding: 30px 26px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-top{
+    display:flex; align-items:center; gap:16px; flex-wrap: wrap;
+  }
+  .coin{
+    flex: 0 0 auto;
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(155deg, var(--gold), #8f5a12);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 30px;
+    box-shadow: 0 6px 16px rgba(160, 110, 20, 0.35);
+    animation: flip 3.2s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+  @keyframes flip{
+    0%, 18%{ transform: rotateY(0deg); }
+    50%{ transform: rotateY(360deg); }
+    100%{ transform: rotateY(360deg); }
+  }
+  .eyebrow-row{display:flex; flex-direction:column; gap:6px; min-width:0;}
+  .kicker{
+    font-size: 13px; font-weight: 800; color: var(--violet);
+    letter-spacing: 0.01em;
+  }
+  .hero h1{font-size: clamp(24px, 5vw, 32px); color: var(--ink);}
+  .hero p.sub{
+    margin: 10px 0 0; color: var(--ink-soft); font-size: 15.5px; max-width: 56ch;
+  }
+  .meta-line{
+    margin-top: 14px; font-size: 13.5px; color: var(--ink-soft);
+  }
+
+  .howto{
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 10px;
+  }
+  .howto-step{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 13px;
+    font-size: 13.5px;
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .howto-step b{
+    flex: 0 0 auto;
+    width: 22px; height:22px; border-radius:50%;
+    background: var(--violet); color: #fff;
+    font-family:'Baloo 2', sans-serif; font-size: 12.5px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .howto-step span{color: var(--ink-soft);}
+
+  /* ---------- Step cards ---------- */
+  .step{
+    margin-top: 22px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 22px 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .step-head{display:flex; align-items:center; gap:12px; margin-bottom: 16px;}
+  .step-num{
+    font-family:'Baloo 2', sans-serif;
+    font-size: 15px; font-weight: 700;
+    width: 30px; height: 30px; border-radius: 9px;
+    display:flex; align-items:center; justify-content:center;
+    flex: 0 0 auto;
+  }
+  .step h2{font-size: 19.5px;}
+  .step-desc{color: var(--ink-soft); font-size: 14.5px; margin: 2px 0 16px;}
+
+  .tone-gold .step-num{background: var(--gold-bg); color: var(--gold);}
+  .tone-teal .step-num{background: var(--teal-bg); color: var(--teal);}
+  .tone-violet .step-num{background: var(--violet-bg); color: var(--violet);}
+
+  label.field-label{
+    display:block; font-weight: 800; font-size: 13.5px; color: var(--ink);
+    margin-bottom: 7px;
+  }
+  input[type="text"]{
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1.6px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+  }
+  input[type="text"]:focus{
+    outline: 3px solid var(--violet-line);
+    outline-offset: 1px;
+    border-color: var(--violet);
+  }
+
+  .counters{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  @media (max-width: 480px){ .counters{grid-template-columns: 1fr;} }
+
+  .counter-card{
+    border-radius: var(--radius-md);
+    padding: 16px;
+    border: 1.6px solid;
+  }
+  .counter-card.gambar{ background: var(--gold-bg); border-color: var(--gold-line); }
+  .counter-card.angka{ background: var(--teal-bg); border-color: var(--teal-line); }
+  .counter-label{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size: 15.5px;
+  }
+  .counter-card.gambar .counter-label{color: var(--gold);}
+  .counter-card.angka .counter-label{color: var(--teal);}
+  .swatch{width:14px; height:14px; border-radius:4px; flex:0 0 auto;}
+  .counter-card.gambar .swatch{background: var(--gold);}
+  .counter-card.angka .swatch{background: var(--teal);}
+
+  .counter-row{
+    margin-top: 12px;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .stepper-btn{
+    width: 42px; height: 42px; border-radius: 12px; border: none;
+    font-size: 21px; font-weight: 800; cursor:pointer;
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 2px 6px rgba(30,20,60,0.12);
+    touch-action: manipulation;
+  }
+  .stepper-btn:active{ transform: translateY(1px); }
+  .counter-value{
+    font-family:'Baloo 2', sans-serif; font-size: 30px; font-weight: 700;
+    min-width: 48px; text-align:center;
+  }
+
+  .total-badge{
+    margin-top: 16px;
+    display:flex; align-items:center; gap:10px;
+    font-size: 14px; font-weight: 700;
+    padding: 11px 14px; border-radius: var(--radius-sm);
+    background: var(--bg); border: 1.4px solid var(--line);
+  }
+  .total-badge.ok{ background: var(--good-bg); color: var(--good); border-color: transparent;}
+  .total-badge.warn{ background: var(--warn-bg); color: var(--warn); border-color: transparent;}
+  .total-badge .dot{width:9px; height:9px; border-radius:50%; background:currentColor; flex:0 0 auto;}
+
+  /* ---------- AI button + reveal ---------- */
+  .ai-btn{
+    margin-top: 18px;
+    width: 100%;
+    border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--violet), #3E3170);
+    color: #fff;
+    font-family:'Baloo 2', sans-serif;
+    font-size: 16.5px; font-weight: 700;
+    padding: 15px 18px;
+    border-radius: var(--radius-md);
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    box-shadow: 0 8px 18px rgba(74, 58, 140, 0.32);
+  }
+  .ai-btn:disabled{ opacity: 0.55; cursor: default; }
+  .ai-btn:active:not(:disabled){ transform: translateY(1px); }
+
+  .ai-panel{
+    margin-top: 16px;
+    display:none;
+  }
+  .ai-panel.show{display:block;}
+  .bubble{
+    background: var(--violet-bg);
+    border: 1.4px solid var(--violet-line);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    font-size: 14.5px;
+    color: var(--ink);
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .bubble .who{font-size: 20px; flex:0 0 auto;}
+  .thinking-dots span{
+    display:inline-block; width:6px; height:6px; margin-right:4px;
+    border-radius:50%; background: var(--violet);
+    animation: bounce 1.1s infinite ease-in-out;
+  }
+  .thinking-dots span:nth-child(2){animation-delay:.15s;}
+  .thinking-dots span:nth-child(3){animation-delay:.3s;}
+  @keyframes bounce{
+    0%, 80%, 100%{ transform: translateY(0); opacity:.5;}
+    40%{ transform: translateY(-4px); opacity:1;}
+  }
+
+  .stale-flag{
+    margin-top: 10px;
+    font-size: 13px; font-weight: 700; color: var(--warn);
+    background: var(--warn-bg); padding: 9px 12px; border-radius: var(--radius-sm);
+    display:none;
+  }
+  .stale-flag.show{display:block;}
+
+  .chart-wrap{
+    margin-top: 16px;
+    background: var(--bg);
+    border: 1.4px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 20px 18px 14px;
+  }
+  .chart-title{font-size:13px; font-weight:800; color: var(--ink-soft); margin-bottom: 14px;}
+  .bars{
+    display:flex; align-items:flex-end; justify-content:center; gap: 40px;
+    height: 170px;
+  }
+  .bar-col{display:flex; flex-direction:column; align-items:center; gap:8px; width: 84px;}
+  .bar-count{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:18px;}
+  .bar{
+    width: 56px; border-radius: 10px 10px 4px 4px;
+    height: 0px;
+    transition: height 900ms cubic-bezier(.2,.8,.2,1);
+  }
+  .bar.gambar{ background: linear-gradient(180deg, var(--gold), #a3670e);}
+  .bar.angka{ background: linear-gradient(180deg, var(--teal), #106a58);}
+  .bar-name{font-size: 13px; font-weight:800;}
+  .bar-col.gambar .bar-name{color:var(--gold);}
+  .bar-col.angka .bar-name{color:var(--teal);}
+
+  /* ---------- Discussion ---------- */
+  .qa-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .qa-item{
+    display:flex; gap:10px; align-items:flex-start;
+    background: var(--bg); border:1.4px solid var(--line);
+    border-radius: var(--radius-sm); padding: 12px 13px;
+    cursor:pointer; font-size: 14.5px;
+  }
+  .qa-item input{ margin-top:3px; flex:0 0 auto; width:18px; height:18px; accent-color: var(--violet);}
+  .qa-item.checked{ background: var(--good-bg); border-color: transparent; }
+  .qa-item .qtext{color: var(--ink);}
+  .qa-item.checked .qtext{ color: var(--ink-soft); text-decoration: line-through; text-decoration-color: var(--good); }
+
+  /* ---------- Recap ---------- */
+  .recap-actions{display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 14px;}
+  .btn-secondary{
+    border: 1.6px solid var(--line); background: var(--surface); color: var(--ink);
+    font-family:'Nunito', sans-serif; font-weight: 800; font-size: 14px;
+    padding: 10px 16px; border-radius: var(--radius-sm); cursor:pointer;
+  }
+  .btn-secondary:disabled{opacity:.45; cursor:default;}
+  .btn-danger{color: var(--warn); border-color: var(--warn-bg);}
+
+  .recap-empty{
+    color: var(--ink-soft); font-size: 14px; padding: 18px 4px; text-align:center;
+  }
+  table.recap-table{ width:100%; border-collapse: collapse; font-size: 14px; }
+  table.recap-table th{
+    text-align:left; font-size:12.5px; color: var(--ink-soft);
+    padding: 6px 8px; border-bottom: 1.4px solid var(--line);
+  }
+  table.recap-table td{ padding: 9px 8px; border-bottom: 1px solid var(--line); vertical-align: middle;}
+  .mini-bar-track{background: var(--line); border-radius:6px; height:10px; width:100%; overflow:hidden; display:flex;}
+  .mini-bar-fill.gambar{background: var(--gold);}
+  .mini-bar-fill.angka{background: var(--teal);}
+  .recap-name{font-weight:800;}
+  .confirm-row{
+    display:none; align-items:center; gap:10px; margin-bottom: 12px;
+    background: var(--warn-bg); color: var(--warn); padding: 10px 12px;
+    border-radius: var(--radius-sm); font-size: 13.5px; font-weight:700;
+  }
+  .confirm-row.show{display:flex; flex-wrap:wrap;}
+  .confirm-row button{
+    border:none; padding: 7px 12px; border-radius: 8px; font-weight:800; cursor:pointer; font-size:13px;
+  }
+  .confirm-yes{background: var(--warn); color:#fff;}
+  .confirm-no{background: var(--surface); color: var(--ink);}
+
+  .recap-total{
+    margin-top: 14px; padding-top: 12px; border-top: 1.6px dashed var(--line);
+    display:flex; justify-content:space-between; font-size: 13.5px; color: var(--ink-soft); font-weight:700;
+  }
+
+  footer{
+    margin-top: 26px; text-align:center; font-size: 12.5px; color: var(--ink-soft);
+    padding: 0 10px;
+  }
+  footer .line1{font-weight:800; color: var(--ink);}
+
+  @media (prefers-reduced-motion: reduce){
+    .coin{animation: none;}
+    .bar{transition: none;}
+    .thinking-dots span{animation: none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-top">
+      <div class="coin" aria-hidden="true">🪙</div>
+      <div class="eyebrow-row">
+        <div class="kicker">Media Ajar Plugged</div>
+        <h1>Bertanya ke AI: Penyaji Data Otomatis</h1>
+      </div>
+    </div>
+    <p class="sub">Lanjutan aktivitas "Aku Robot Pengelompok Data". Setelah menghitung hasil lemparan koin secara manual, giliran kelompok memasukkan hasilnya ke sini dan meminta bantuan AI membuat diagram batang — lalu memeriksa apakah hasilnya benar.</p>
+    <p class="meta-line">Matematika Kelas 5 · Materi Data · Digunakan bergantian pada satu laptop/HP guru</p>
+
+    <div class="howto">
+      <div class="howto-step"><b>1</b><span>Setiap kelompok bergiliran memakai perangkat ini.</span></div>
+      <div class="howto-step"><b>2</b><span>Masukkan nama kelompok dan jumlah kartu Gambar &amp; Angka dari Papan Pengelompokan.</span></div>
+      <div class="howto-step"><b>3</b><span>Tekan "Tanya AI" untuk melihat diagram batang otomatis.</span></div>
+      <div class="howto-step"><b>4</b><span>Diskusikan pertanyaan kritis bersama kelompok.</span></div>
+      <div class="howto-step"><b>5</b><span>Tambahkan hasil ke Rekap Kelas untuk dibandingkan bersama.</span></div>
+    </div>
+  </div>
+
+  <!-- STEP 1+2: input -->
+  <div class="step tone-gold">
+    <div class="step-head">
+      <div class="step-num">1</div>
+      <h2>Masukkan Data Kelompok</h2>
+    </div>
+    <p class="step-desc">Gunakan hasil hitungan manual kelompok kalian dari Papan Pengelompokan Data.</p>
+
+    <label class="field-label" for="groupName">Nama kelompok</label>
+    <input type="text" id="groupName" placeholder="Contoh: Kelompok Pelangi" maxlength="40">
+
+    <div class="counters">
+      <div class="counter-card gambar">
+        <div class="counter-label"><span class="swatch"></span> Gambar</div>
+        <div class="counter-row">
+          <button class="stepper-btn" id="gambarMinus" aria-label="Kurangi jumlah Gambar">−</button>
+          <div class="counter-value" id="gambarValue">0</div>
+          <button class="stepper-btn" id="gambarPlus" aria-label="Tambah jumlah Gambar">+</button>
+        </div>
+      </div>
+      <div class="counter-card angka">
+        <div class="counter-label"><span class="swatch"></span> Angka</div>
+        <div class="counter-row">
+          <button class="stepper-btn" id="angkaMinus" aria-label="Kurangi jumlah Angka">−</button>
+          <div class="counter-value" id="angkaValue">0</div>
+          <button class="stepper-btn" id="angkaPlus" aria-label="Tambah jumlah Angka">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="total-badge" id="totalBadge">
+      <span class="dot"></span>
+      <span id="totalText">Total: 0 dari 20 percobaan</span>
+    </div>
+  </div>
+
+  <!-- STEP 2: ask AI -->
+  <div class="step tone-violet">
+    <div class="step-head">
+      <div class="step-num">2</div>
+      <h2>Minta Bantuan AI</h2>
+    </div>
+    <p class="step-desc">AI akan membaca angka yang kalian masukkan lalu membuatkan diagram batangnya secara otomatis.</p>
+
+    <button class="ai-btn" id="askAiBtn">🤖 Tanya AI: Buatkan Diagram!</button>
+
+    <div class="stale-flag" id="staleFlag">Data berubah sejak diagram terakhir dibuat — tekan tombol di atas lagi supaya diagramnya sesuai.</div>
+
+    <div class="ai-panel" id="aiPanel">
+      <div class="bubble" id="aiBubble">
+        <span class="who">🤖</span>
+        <span id="aiBubbleText">Sedang membaca data kalian...</span>
+      </div>
+      <div class="chart-wrap" id="chartWrap" style="display:none;">
+        <div class="chart-title">DIAGRAM BATANG BUATAN AI</div>
+        <div class="bars">
+          <div class="bar-col gambar">
+            <div class="bar-count" id="barGambarCount">0</div>
+            <div class="bar gambar" id="barGambar"></div>
+            <div class="bar-name">Gambar</div>
+          </div>
+          <div class="bar-col angka">
+            <div class="bar-count" id="barAngkaCount">0</div>
+            <div class="bar angka" id="barAngka"></div>
+            <div class="bar-name">Angka</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: critical thinking -->
+  <div class="step tone-teal">
+    <div class="step-head">
+      <div class="step-num">3</div>
+      <h2>Periksa Kembali, Jangan Percaya Begitu Saja</h2>
+    </div>
+    <p class="step-desc">Diskusikan bersama kelompok, lalu centang setelah membicarakannya.</p>
+    <ul class="qa-list" id="qaList">
+      <li class="qa-item"><input type="checkbox"><span class="qtext">Apakah diagram AI sesuai dengan tabel turus buatan tangan kelompok kami?</span></li>
+      <li class="qa-item"><input type="checkbox"><span class="qtext">Apa yang membuat AI bisa membuat diagram lebih cepat daripada kami?</span></li>
+      <li class="qa-item"><input type="checkbox"><span class="qtext">Bagaimana kalau kami salah memasukkan angka — apakah AI akan tahu bahwa itu salah?</span></li>
+      <li class="qa-item"><input type="checkbox"><span class="qtext">Mengapa hasil AI tetap harus diperiksa ulang oleh manusia?</span></li>
+    </ul>
+  </div>
+
+  <!-- STEP 4: class recap -->
+  <div class="step tone-gold">
+    <div class="step-head">
+      <div class="step-num">4</div>
+      <h2>Rekap Kelas</h2>
+    </div>
+    <p class="step-desc">Setiap kelompok yang sudah tampil menambahkan hasilnya di sini, supaya seluruh kelas bisa membandingkan.</p>
+
+    <div class="recap-actions">
+      <button class="btn-secondary" id="addRecapBtn" disabled>+ Tambahkan Kelompok Ini</button>
+      <button class="btn-secondary btn-danger" id="resetRecapBtn">Hapus Rekap Kelas</button>
+    </div>
+
+    <div class="confirm-row" id="confirmRow">
+      <span>Hapus semua data rekap kelas?</span>
+      <button class="confirm-yes" id="confirmYes">Ya, hapus</button>
+      <button class="confirm-no" id="confirmNo">Batal</button>
+    </div>
+
+    <div id="recapBody">
+      <div class="recap-empty">Belum ada kelompok yang menambahkan hasil.</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="line1">Rinurti Andri Astutik, S.Pd. — SD Negeri Mediyunan II Ngasem</div>
+    <div>Pelengkap digital untuk Modul Ajar &amp; Media Ajar Unplugged "Aku Robot Pengelompok Data" — Matematika Kelas 5, Materi Data</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var gambar = 0, angka = 0;
+  var lastAsked = null; // {gambar, angka} snapshot at last AI generation
+  var recap = [];
+
+  var gambarValue = document.getElementById('gambarValue');
+  var angkaValue = document.getElementById('angkaValue');
+  var totalBadge = document.getElementById('totalBadge');
+  var totalText = document.getElementById('totalText');
+  var staleFlag = document.getElementById('staleFlag');
+  var askAiBtn = document.getElementById('askAiBtn');
+  var aiPanel = document.getElementById('aiPanel');
+  var aiBubbleText = document.getElementById('aiBubbleText');
+  var chartWrap = document.getElementById('chartWrap');
+  var barGambar = document.getElementById('barGambar');
+  var barAngka = document.getElementById('barAngka');
+  var barGambarCount = document.getElementById('barGambarCount');
+  var barAngkaCount = document.getElementById('barAngkaCount');
+  var addRecapBtn = document.getElementById('addRecapBtn');
+  var resetRecapBtn = document.getElementById('resetRecapBtn');
+  var confirmRow = document.getElementById('confirmRow');
+  var recapBody = document.getElementById('recapBody');
+  var groupNameInput = document.getElementById('groupName');
+
+  function clamp(n){ return Math.max(0, Math.min(99, n)); }
+
+  function renderCounters(){
+    gambarValue.textContent = gambar;
+    angkaValue.textContent = angka;
+    var total = gambar + angka;
+    totalText.textContent = 'Total: ' + total + ' dari 20 percobaan';
+    totalBadge.classList.remove('ok','warn');
+    if(total === 20){
+      totalBadge.classList.add('ok');
+      totalText.textContent = 'Lengkap! 20 percobaan sudah tercatat.';
+    } else if(total > 20){
+      totalBadge.classList.add('warn');
+      totalText.textContent = 'Totalnya ' + total + ' — lebih dari 20. Coba dihitung ulang.';
+    } else {
+      totalBadge.classList.add('warn');
+    }
+    checkStale();
+  }
+
+  function checkStale(){
+    if(lastAsked && (lastAsked.gambar !== gambar || lastAsked.angka !== angka)){
+      staleFlag.classList.add('show');
+    } else {
+      staleFlag.classList.remove('show');
+    }
+  }
+
+  document.getElementById('gambarPlus').onclick = function(){ gambar = clamp(gambar+1); renderCounters(); };
+  document.getElementById('gambarMinus').onclick = function(){ gambar = clamp(gambar-1); renderCounters(); };
+  document.getElementById('angkaPlus').onclick = function(){ angka = clamp(angka+1); renderCounters(); };
+  document.getElementById('angkaMinus').onclick = function(){ angka = clamp(angka-1); renderCounters(); };
+
+  askAiBtn.onclick = function(){
+    askAiBtn.disabled = true;
+    askAiBtn.textContent = '🤖 AI sedang bekerja...';
+    aiPanel.classList.add('show');
+    chartWrap.style.display = 'none';
+    aiBubbleText.innerHTML = 'Sedang membaca data kalian<span class="thinking-dots"><span></span><span></span><span></span></span>';
+    staleFlag.classList.remove('show');
+
+    var g = gambar, a = angka;
+    setTimeout(function(){
+      aiBubbleText.textContent = 'Baik! Ini diagram batang dari data kalian — ' + g + ' Gambar dan ' + a + ' Angka. Tetap periksa ya, apakah ini sudah cocok dengan tabel turus kalian!';
+      chartWrap.style.display = 'block';
+      barGambarCount.textContent = g;
+      barAngkaCount.textContent = a;
+      barGambar.style.height = '0px';
+      barAngka.style.height = '0px';
+      var maxVal = Math.max(g, a, 1);
+      requestAnimationFrame(function(){
+        setTimeout(function(){
+          barGambar.style.height = Math.max(6, (g/maxVal)*150) + 'px';
+          barAngka.style.height = Math.max(6, (a/maxVal)*150) + 'px';
+        }, 30);
+      });
+      lastAsked = {gambar: g, angka: a};
+      askAiBtn.disabled = false;
+      askAiBtn.textContent = '🤖 Tanya AI: Buatkan Diagram!';
+      addRecapBtn.disabled = false;
+    }, 1100);
+  };
+
+  // discussion checklist
+  document.getElementById('qaList').addEventListener('click', function(e){
+    var item = e.target.closest('.qa-item');
+    if(!item) return;
+    var box = item.querySelector('input');
+    if(e.target !== box){ box.checked = !box.checked; }
+    item.classList.toggle('checked', box.checked);
+  });
+
+  // recap
+  function renderRecap(){
+    if(recap.length === 0){
+      recapBody.innerHTML = '<div class="recap-empty">Belum ada kelompok yang menambahkan hasil.</div>';
+      return;
+    }
+    var maxVal = 1;
+    recap.forEach(function(r){ maxVal = Math.max(maxVal, r.gambar, r.angka); });
+
+    var totalG = 0, totalA = 0;
+    var rows = recap.map(function(r, i){
+      totalG += r.gambar; totalA += r.angka;
+      return '<tr>' +
+        '<td class="recap-name">' + escapeHtml(r.name) + '</td>' +
+        '<td style="width:38%"><div class="mini-bar-track"><div class="mini-bar-fill gambar" style="width:' + (r.gambar/maxVal*100) + '%"></div></div></td>' +
+        '<td style="width:26px; text-align:right;">' + r.gambar + '</td>' +
+        '<td style="width:38%"><div class="mini-bar-track"><div class="mini-bar-fill angka" style="width:' + (r.angka/maxVal*100) + '%"></div></div></td>' +
+        '<td style="width:26px; text-align:right;">' + r.angka + '</td>' +
+        '</tr>';
+    }).join('');
+
+    recapBody.innerHTML =
+      '<table class="recap-table"><thead><tr><th>Kelompok</th><th colspan="2">Gambar</th><th colspan="2">Angka</th></tr></thead><tbody>' +
+      rows + '</tbody></table>' +
+      '<div class="recap-total"><span>' + recap.length + ' kelompok sudah ditambahkan</span><span>Total kelas — Gambar: ' + totalG + ' · Angka: ' + totalA + '</span></div>';
+  }
+
+  function escapeHtml(s){
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  addRecapBtn.onclick = function(){
+    var name = groupNameInput.value.trim() || ('Kelompok ' + (recap.length + 1));
+    recap.push({name: name, gambar: gambar, angka: angka});
+    renderRecap();
+    addRecapBtn.textContent = '✓ Ditambahkan ke Rekap';
+    setTimeout(function(){ addRecapBtn.textContent = '+ Tambahkan Kelompok Ini'; }, 1400);
+  };
+
+  resetRecapBtn.onclick = function(){
+    if(recap.length === 0) return;
+    confirmRow.classList.add('show');
+  };
+  document.getElementById('confirmYes').onclick = function(){
+    recap = [];
+    renderRecap();
+    confirmRow.classList.remove('show');
+  };
+  document.getElementById('confirmNo').onclick = function(){
+    confirmRow.classList.remove('show');
+  };
+
+  renderCounters();
+  renderRecap();
+})();
+</script>
+</body>
+</html>
